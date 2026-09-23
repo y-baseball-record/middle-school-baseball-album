@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3年間を振り返る</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#eef3f6;color:#102b4e;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}.app{max-width:520px;margin:auto;min-height:100vh;background:#fff}.unified-nav{position:sticky;top:0;z-index:50;background:#0b223d;padding:9px 10px;box-shadow:0 2px 8px rgba(0,0,0,.12);overflow-x:auto;-webkit-overflow-scrolling:touch}.unified-nav-inner{display:flex;gap:7px;min-width:max-content;max-width:520px;margin:0 auto}.unified-nav a{display:block;text-decoration:none;white-space:nowrap;border:1px solid rgba(255,255,255,.35);border-radius:18px;padding:8px 12px;color:#fff;font-size:12px;font-weight:700;background:rgba(255,255,255,.08)}.unified-nav a.active{background:#e92332;border-color:#e92332}.top{background:#102b4e;color:#fff;padding:28px 24px}.top h1{font-size:27px;margin:0 0 8px}.top p{margin:0;font-size:14px;opacity:.9}.screen{padding:20px}.section-title{font-size:19px;font-weight:800;margin:0 0 12px}.year-card{background:#f2f7fa;border:1px solid #dce7ef;border-radius:16px;padding:16px;margin-bottom:22px}.year-label{font-size:12px;color:#71859a;margin-bottom:5px}.year-name{font-size:22px;font-weight:800;margin-bottom:4px}.period{font-size:13px;color:#526d86}.year-buttons{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;background:#eaf0f5;padding:5px;border-radius:14px;margin-top:15px}.year-buttons button{border:0;border-radius:10px;padding:11px 4px;background:transparent;color:#728096;font-weight:700;font-size:13px}.year-buttons button.active{background:#e92332;border-color:#e92332;color:#fff}.category-list{display:grid;gap:12px}.category{display:flex;align-items:center;gap:13px;width:100%;text-align:left;border:1px solid #dfe8ef;border-radius:16px;background:#fff;padding:15px;box-shadow:0 2px 8px #102b4e0c;color:#102b4e;cursor:pointer}.category:active{transform:scale(.99)}.icon{width:48px;height:48px;flex:0 0 48px;border-radius:14px;background:#edf4f8;display:grid;place-items:center;font-size:25px}.category-main{flex:1;min-width:0}.category-name{font-size:15px;font-weight:800;margin-bottom:5px}.category-count{font-size:12px;color:#71859a}.arrow{font-size:24px;color:#8aa0b3}.summary-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 22px}.summary-stat{background:#fff;border:1px solid #e6edf3;border-radius:16px;padding:14px 6px;text-align:center;box-shadow:0 3px 10px #17365d0b}.summary-stat .label{font-size:11px;color:#71859a;font-weight:700}.summary-stat .value{font-size:25px;font-weight:900;color:#102b4e;line-height:1.35;margin:4px 0}.summary-stat .unit{font-size:10px;color:#8a9aaa}.status{font-size:12px;color:#e92332;min-height:18px;margin:10px 0}.note{background:#fff8e8;border:1px solid #f1dfae;color:#7b6129;border-radius:12px;padding:12px;font-size:12px;line-height:1.7;margin-top:20px}.back{display:inline-block;margin-top:22px;text-decoration:none;color:#365773;font-size:13px;font-weight:700}.loading{color:#8a9aaa;text-align:center;padding:25px}.error{color:#e92332}.footer{padding:0 20px 24px;color:#8a9aaa;font-size:11px;text-align:center}@media(min-width:700px){.unified-nav-inner{max-width:900px;justify-content:center}.unified-nav a{font-size:13px;padding:9px 14px}}
+</style>
+
+<style id="common-footer-style">
+.common-footer{display:flex;gap:8px;padding:12px 18px 18px;border-top:1px solid #e7edf2;background:#fff}
+.common-footer a{flex:1;text-align:center;text-decoration:none;color:#526d86;font-size:11px;padding:7px 2px;border-radius:12px}
+.common-footer a .footer-icon{display:block;font-size:22px;line-height:1.2;margin-bottom:4px}
+.common-footer a.active{color:#e92332;font-weight:800}
+</style>
+
+</head>
+<body>
+<nav class="unified-nav" aria-label="記録メニュー"><div class="unified-nav-inner">
+<a href="index.html">ホーム</a>
+<a href="試合記録/index.html">試合記録</a>
+<a href="成長記録/index.html">成長記録</a>
+<a href="練習記録/index.html">練習記録</a>
+<a href="ケガ・コンディション/index.html">ケガ・コンディション</a>
+<a href="野球用品/index.html">野球用品</a>
+<a href="写真・思い出/index.html">写真・思い出</a>
+<a href="3年間を振り返る.html" class="active">3年間を振り返る</a>
+</div></nav>
+<div class="app">
+<header class="top"><h1>3年間を振り返る</h1><p>中学3年間の記録と成長を振り返ります</p></header>
+<main class="screen">
+<h2 class="section-title">学年を選択</h2>
+<div class="year-card">
+<div class="year-label">現在選択中</div><div id="year-name" class="year-name">中1</div><div id="period" class="period">2025年4月〜2026年3月</div>
+<div class="year-buttons"><button data-grade="all" class="active">すべて</button><button data-grade="1">中1</button><button data-grade="2">中2</button><button data-grade="3">中3</button></div>
+</div>
+<h2 class="section-title">記録のサマリー</h2>
+<div class="summary-stats">
+<div class="summary-stat"><div class="label">試合数</div><div id="summary-games" class="value">—</div><div class="unit">試合</div></div>
+<div class="summary-stat"><div class="label">打率</div><div id="summary-batting" class="value">—</div><div class="unit">打率</div></div>
+<div class="summary-stat"><div class="label">防御率</div><div id="summary-era" class="value">—</div><div class="unit">防御率</div></div>
+</div>
+<h2 class="section-title">記録カテゴリ</h2>
+<div id="status" class="status"></div>
+<div id="categories" class="category-list"><div class="loading">記録件数を読み込み中…</div></div>
+<div class="note">選択した学年の期間に登録された記録件数を表示しています。カテゴリをタップすると、各記録画面へ移動できます。</div>
+<a class="back" href="index.html">← ホームへ戻る</a>
+</main><div class="footer">中学野球日記</div>
+</div>
+<script>
+const client=(typeof supabaseClient!=='undefined')?supabaseClient:window.supabaseClient;
+const $=id=>document.getElementById(id);
+const BASE_YEAR=2026;
+let selectedGrade='all';
+const categories=[
+ {key:'games',name:'試合',icon:'🏆',table:'games',date:'game_date',href:'試合記録/index.html'},
+ {key:'practice',name:'練習',icon:'👟',table:'practice_records',date:'practice_date',href:'練習記録/index.html'},
+ {key:'condition',name:'ケガ・コンディション',icon:'🩹',table:'injury_conditions',date:'onset_date',href:'ケガ・コンディション/index.html'},
+ {key:'growth',name:'身長・体重・食事',icon:'⚖️',href:'成長記録/index.html'},
+ {key:'equipment',name:'野球用品',icon:'🧢',table:'equipment_records',date:'purchase_date',href:'野球用品/index.html'},
+ {key:'memory',name:'写真・思い出',icon:'📷',table:'photo_memory_records',date:'record_date',href:'写真・思い出/index.html'}
+];
+function rangeFor(grade){if(grade==='all')return {start:`${BASE_YEAR}-04-01`,end:`${BASE_YEAR+3}-04-01`,label:`${BASE_YEAR}年4月〜${BASE_YEAR+2}年3月`};const startYear=BASE_YEAR+Number(grade)-1;return {start:`${startYear}-04-01`,end:`${startYear+1}-04-01`,label:`${startYear}年4月〜${startYear+1}年3月`}}
+function updateYearUI(){const r=rangeFor(selectedGrade);$('year-name').textContent=selectedGrade==='all'?'すべて':`中${selectedGrade}`;$('period').textContent=r.label;document.querySelectorAll('[data-grade]').forEach(b=>b.classList.toggle('active',b.dataset.grade===String(selectedGrade)))}
+async function countTable(table,date,start,end){
+  const q=await client.from(table).select(`id,${date}`).gte(date,start).lt(date,end);
+  if(q.error)throw new Error(`${table}.${date}: ${q.error.message}`);
+  return (q.data||[]).length;
+}
+async function loadSummary(start,end){
+  const g=await client.from('games').select('id,game_date').gte('game_date',start).lt('game_date',end);
+  if(g.error)throw new Error('games: '+g.error.message);
+  const ids=(g.data||[]).map(x=>x.id);
+  let batting=[],pitching=[];
+  if(ids.length){
+    const [b,p]=await Promise.all([client.from('batting_records').select('game_id,at_bats,hits').in('game_id',ids),client.from('pitching_records').select('game_id,innings_outs,earned_runs').in('game_id',ids)]);
+    if(b.error)throw new Error('batting_records: '+b.error.message); if(p.error)throw new Error('pitching_records: '+p.error.message);
+    batting=b.data||[]; pitching=p.data||[];
+  }
+  const ab=batting.reduce((n,r)=>n+Number(r.at_bats||0),0), hits=batting.reduce((n,r)=>n+Number(r.hits||0),0);
+  const outs=pitching.reduce((n,r)=>n+Number(r.innings_outs||0),0), er=pitching.reduce((n,r)=>n+Number(r.earned_runs||0),0);
+  $('summary-games').textContent=g.data?.length||0;
+  $('summary-batting').textContent=ab? (hits/ab).toFixed(3):'.000';
+  $('summary-era').textContent=outs? (er*21/outs).toFixed(2):'0.00';
+}
+async function loadCounts(){
+  if(!client){
+    $('status').textContent='Supabase接続設定が読み込まれていません。';
+    $('categories').innerHTML='';
+    return;
+  }
+  const {start,end}=rangeFor(selectedGrade);
+  $('status').textContent='';
+  $('summary-games').textContent='—';$('summary-batting').textContent='—';$('summary-era').textContent='—';
+  $('categories').innerHTML='<div class="loading">記録件数を読み込み中…</div>';
+
+  const jobs=[
+    ['games','game_date','games'],
+    ['practice_records','practice_date','practice'],
+    ['injury_conditions','onset_date','condition'],
+    ['equipment_records','purchase_date','equipment'],
+    ['photo_memory_records','record_date','memory'],
+    ['growth_measurements','record_date','growth'],
+    ['food_records','record_date','food'],
+    ['body_building_records','record_date','body']
+  ];
+
+  const results=await Promise.allSettled(
+    jobs.map(([table,date,key])=>countTable(table,date,start,end).then(count=>({key,count,table,date})))
+  );
+
+  const counts={};
+  const errors=[];
+
+  results.forEach((result,index)=>{
+    const [table,date,key]=jobs[index];
+    if(result.status==='fulfilled'){
+      counts[key]=result.value.count;
+    }else{
+      counts[key]=0;
+      errors.push(result.reason?.message||`${table}.${date} の取得に失敗しました`);
+      console.error('3年間を振り返る：集計エラー',table,date,result.reason);
+    }
+  });
+
+  counts.growth=(counts.growth||0)+(counts.food||0)+(counts.body||0);
+
+  if(errors.length){
+    $('status').textContent='一部の記録件数を取得できませんでした。詳細はブラウザのコンソールを確認してください。';
+  }
+
+  await loadSummary(start,end);
+  render(counts);
+}
+function render(counts){$('categories').innerHTML=categories.map(c=>`<button class="category" onclick="location.href='${c.href}'"><span class="icon">${c.icon}</span><span class="category-main"><span class="category-name">${c.name}</span><span class="category-count">${counts[c.key]??0}件</span></span><span class="arrow">›</span></button>`).join('')}
+document.querySelectorAll('[data-grade]').forEach(b=>b.addEventListener('click',()=>{selectedGrade=b.dataset.grade;updateYearUI();loadCounts()}));
+updateYearUI();loadCounts();
+</script>
+<nav class="common-footer" aria-label="下部メニュー"><a href="試合記録/index.html" class=""><span class="footer-icon">⚾</span>試合</a><a href="index.html" class=""><span class="footer-icon">⌂</span>ホーム</a><a href="record-menu.html" class="active"><span class="footer-icon">☰</span>その他</a></nav>
+</body></html>

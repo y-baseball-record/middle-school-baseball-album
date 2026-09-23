@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>写真・思い出</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f3f6f8;color:#102b4e;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}header{background:#102b4e;color:#fff;padding:20px}header .wrap{padding:0}.wrap{max-width:760px;margin:auto;padding:18px 16px 100px}header h1{font-size:22px;margin:0 0 5px}header p{font-size:12px;margin:0;opacity:.85;color:#fff}.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:18px}.btn{border:0;border-radius:25px;padding:12px 18px;font-weight:700;cursor:pointer}.primary{background:#ed1c2e;color:#fff}.light{background:#e9f1f6;color:#183a60}.card{background:#fff;border-radius:18px;padding:18px;margin:12px 0;box-shadow:0 3px 14px #102f5512}.filters,.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{margin:12px 0}.field label{display:block;font-weight:700;margin-bottom:7px}.field input,.field select,.field textarea{width:100%;padding:13px;border:1px solid #d4e0eb;border-radius:12px;font:inherit;background:#fbfdff}.field textarea{min-height:110px;resize:vertical}.muted{color:#71839a;font-size:13px}.hidden{display:none}.msg{margin:10px 0;color:#ed1c2e;font-weight:700}.empty{text-align:center;padding:35px;color:#71839a}.photos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}.photos img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:12px;background:#eef3f7}.item-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.item h3{margin:0 0 6px;font-size:19px}.tag{display:inline-block;padding:4px 9px;border-radius:12px;background:#edf3f8;font-size:12px;white-space:nowrap}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.preview{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:8px}.preview img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:12px}.note{white-space:pre-wrap;line-height:1.7}@media(max-width:480px){.filters,.grid{grid-template-columns:1fr}.top{align-items:stretch;flex-direction:column}.photos{grid-template-columns:1fr 1fr}}
+
+</style>
+
+<style id="unified-navigation-style">
+.unified-nav{position:sticky;top:0;z-index:50;background:#0b223d;padding:9px 10px;box-shadow:0 2px 8px rgba(0,0,0,.12);overflow-x:auto;-webkit-overflow-scrolling:touch}
+.unified-nav-inner{display:flex;gap:7px;min-width:max-content;max-width:520px;margin:0 auto}
+.unified-nav a{display:block;text-decoration:none;white-space:nowrap;border:1px solid rgba(255,255,255,.35);border-radius:18px;padding:8px 12px;color:#fff;font-size:12px;font-weight:700;background:rgba(255,255,255,.08)}
+.unified-nav a.active{background:#e92332;border-color:#e92332}
+@media(min-width:700px){.unified-nav-inner{max-width:900px;justify-content:center}.unified-nav a{font-size:13px;padding:9px 14px}}
+</style>
+
+<style id="common-footer-style">
+.common-footer{display:flex;gap:8px;padding:12px 18px 18px;border-top:1px solid #e7edf2;background:#fff}
+.common-footer a{flex:1;text-align:center;text-decoration:none;color:#526d86;font-size:11px;padding:7px 2px;border-radius:12px}
+.common-footer a .footer-icon{display:block;font-size:22px;line-height:1.2;margin-bottom:4px}
+.common-footer a.active{color:#e92332;font-weight:800}
+</style>
+
+</head>
+<body>
+<nav class="unified-nav" aria-label="記録メニュー"><div class="unified-nav-inner"><a href="../試合記録/index.html">試合記録</a><a href="../成長記録/index.html">成長記録</a><a href="../練習記録/index.html">練習記録</a><a href="../ケガ・コンディション/index.html">ケガ・コンディション</a><a href="../野球用品/index.html">野球用品</a><a href="../写真・思い出/index.html" class="active">写真・思い出</a></div></nav>
+
+<header><div class="wrap"><h1>写真・思い出</h1><p>野球の日々を写真とメモで残す</p></div></header>
+<main class="wrap">
+<div class="top"><button class="btn light" onclick="showList()">← 一覧へ</button><button class="btn primary" onclick="showForm()">＋ 思い出を追加</button></div>
+<section id="list-view">
+<div class="card"><div class="filters"><div class="field"><label>年度</label><select id="year-filter"><option value="">すべて</option></select></div><div class="field"><label>カテゴリ</label><select id="category-filter"><option value="">すべて</option><option>試合</option><option>練習</option><option>日常</option><option>その他</option></select></div></div><button class="btn light" onclick="clearFilters()">絞り込みを解除</button></div>
+<div id="list"></div>
+</section>
+<section id="form-view" class="hidden"><div class="card"><h2 id="form-title">思い出を登録</h2><input type="hidden" id="edit-id"><input type="hidden" id="photo-url-1"><input type="hidden" id="photo-url-2">
+<div class="grid"><div class="field"><label>日付 *</label><input type="date" id="record-date" required></div><div class="field"><label>カテゴリ *</label><select id="category"><option value="試合">試合</option><option value="練習">練習</option><option value="日常">日常</option><option value="その他">その他</option></select></div></div>
+<div class="field"><label>タイトル・出来事 *</label><input id="title" placeholder="例：ピッチャー復活の日、父とのシャトル練習" required></div>
+<div class="field"><label>試合名・相手・場所など</label><input id="event-info" placeholder="例：○○大会 vs ○○中、近所の公園" ></div>
+<div class="field"><label>写真（最大2枚）</label><input type="file" id="photos-input" accept="image/*" multiple><div class="muted">写真のトリミング・編集は行いません。必要な場合は事前に端末側で編集してください。</div><div id="preview" class="preview"></div></div>
+<div class="field"><label>メモ</label><textarea id="note" maxlength="500" placeholder="その日の出来事、印象に残った言葉、できるようになったことなど"></textarea><div class="muted" id="count">0 / 500</div></div>
+<div id="message" class="msg"></div><div class="actions"><button class="btn primary" onclick="saveRecord()">保存する</button><button class="btn light" onclick="showList()">キャンセル</button></div>
+</div></section>
+</main>
+<script>
+const $=id=>document.getElementById(id);let records=[];
+function client(){try{return typeof supabaseClient!=='undefined'?supabaseClient:window.supabaseClient}catch(e){return window.supabaseClient}}
+function showList(){ $('form-view').classList.add('hidden');$('list-view').classList.remove('hidden');loadRecords() }
+function showForm(record=null){$('list-view').classList.add('hidden');$('form-view').classList.remove('hidden');$('form-title').textContent=record?'思い出を編集':'思い出を登録';$('edit-id').value=record?.id||'';$('record-date').value=record?.record_date||new Date().toISOString().slice(0,10);$('category').value=record?.category||'試合';$('title').value=record?.title||'';$('event-info').value=record?.event_info||'';$('note').value=record?.note||'';$('photos-input').value='';$('photo-url-1').value=record?.photo_url_1||'';$('photo-url-2').value=record?.photo_url_2||'';renderPreview([record?.photo_url_1,record?.photo_url_2].filter(Boolean));$('message').textContent='';updateCount();window.scrollTo(0,0)}
+function renderPreview(urls){$('preview').innerHTML=urls.map(u=>`<img src="${esc(u)}" alt="写真プレビュー">`).join('')}
+async function loadRecords(){const c=client();if(!c){$('list').innerHTML='<div class="card msg">Supabase接続設定が読み込まれていません。</div>';return}const {data,error}=await c.from('photo_memory_records').select('*').order('record_date',{ascending:false}).order('created_at',{ascending:false});if(error){$('list').innerHTML='<div class="card msg">読み込みエラー：'+esc(error.message)+'</div>';return}records=data||[];populateYears();render()}
+function populateYears(){const sel=$('year-filter'),current=sel.value;const years=[...new Set(records.map(r=>r.record_date?.slice(0,4)).filter(Boolean))].sort().reverse();sel.innerHTML='<option value="">すべて</option>'+years.map(y=>`<option value="${y}">${y}年</option>`).join('');sel.value=current}
+function render(){const year=$('year-filter').value,cat=$('category-filter').value;const filtered=records.filter(r=>(!year||r.record_date?.startsWith(year))&&(!cat||r.category===cat));if(!filtered.length){$('list').innerHTML='<div class="card empty">登録された写真・思い出はありません。</div>';return}$('list').innerHTML=filtered.map(r=>{const urls=[r.photo_url_1,r.photo_url_2].filter(Boolean);return `<div class="card"><div class="item-head"><div><h3>${esc(r.title)}</h3><div class="muted">${esc(r.record_date||'')}　${esc(r.event_info||'')}</div></div><span class="tag">${esc(r.category||'その他')}</span></div>${urls.length?'<div class="photos">'+urls.map(u=>`<img src="${esc(u)}" alt="思い出の写真">`).join('')+'</div>':''}${r.note?`<p class="note">${esc(r.note)}</p>`:''}<div class="actions"><button class="btn light" onclick="editRecord(${r.id})">編集</button><button class="btn light" onclick="deleteRecord(${r.id})">削除</button></div></div>`}).join('')}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+async function saveRecord(){const c=client();$('message').textContent='';if(!c){$('message').textContent='Supabase接続設定が読み込まれていません。';return}const title=$('title').value.trim();if(!title){$('message').textContent='タイトル・出来事を入力してください。';return}let urls=[$('photo-url-1').value||null,$('photo-url-2').value||null];const files=[...$('photos-input').files].slice(0,2);for(let i=0;i<files.length;i++){const file=files[i];const path=Date.now()+'_'+i+'_'+file.name.replace(/[^a-zA-Z0-9._-]/g,'_');const upload=await c.storage.from('memory-photos').upload(path,file,{upsert:true});if(upload.error){$('message').textContent='写真を保存できませんでした：'+upload.error.message;return}urls[i]=c.storage.from('memory-photos').getPublicUrl(path).data.publicUrl}
+const payload={record_date:$('record-date').value,category:$('category').value,title,event_info:$('event-info').value.trim()||null,note:$('note').value.trim()||null,photo_url_1:urls[0],photo_url_2:urls[1]};const id=$('edit-id').value;const result=id?await c.from('photo_memory_records').update(payload).eq('id',id):await c.from('photo_memory_records').insert(payload);if(result.error){$('message').textContent='保存できませんでした：'+result.error.message;return}showList()}
+function editRecord(id){const r=records.find(x=>x.id===id);if(r)showForm(r)}
+async function deleteRecord(id){if(!confirm('この写真・思い出を削除しますか？'))return;const c=client();const {error}=await c.from('photo_memory_records').delete().eq('id',id);if(error){alert('削除できませんでした：'+error.message);return}loadRecords()}
+function clearFilters(){$('year-filter').value='';$('category-filter').value='';render()}
+function updateCount(){$('count').textContent=$('note').value.length+' / 500'}
+$('year-filter').addEventListener('change',render);$('category-filter').addEventListener('change',render);$('photos-input').addEventListener('change',()=>renderPreview([...$('photos-input').files].slice(0,2).map(f=>URL.createObjectURL(f))));$('note').addEventListener('input',updateCount);loadRecords();
+</script>
+<nav class="common-footer" aria-label="下部メニュー"><a href="../試合記録/index.html" class=""><span class="footer-icon">⚾</span>試合</a><a href="../index.html" class=""><span class="footer-icon">⌂</span>ホーム</a><a href="../record-menu.html" class="active"><span class="footer-icon">☰</span>その他</a></nav>
+</body></html>
