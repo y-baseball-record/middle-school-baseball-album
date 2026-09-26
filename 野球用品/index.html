@@ -1,47 +1,1500 @@
 <!DOCTYPE html>
-<html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>野球用品</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>野球用品</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+
 <style>
-*{box-sizing:border-box}body{margin:0;background:#f3f6f8;color:#102b4e;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}header{background:#102b4e;color:#fff;padding:20px}
-header small{opacity:.8;font-size:12px}
-header h1{font-size:22px;margin:0 0 5px}
-header p{font-size:12px;margin:0;opacity:.85;color:#fff}header .wrap{padding:0}.wrap{max-width:680px;margin:auto;padding:18px 16px 100px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.btn{border:0;border-radius:25px;padding:12px 18px;font-weight:700;cursor:pointer}.primary{background:#ed1c2e;color:white}.light{background:#e9f1f6;color:#183a60}.card{background:white;border-radius:18px;padding:18px;margin:12px 0;box-shadow:0 3px 14px #102f5512}.filters{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{margin:12px 0}.field label{display:block;font-weight:700;margin-bottom:7px}.field input,.field select,.field textarea{width:100%;padding:13px;border:1px solid #d4e0eb;border-radius:12px;font:inherit;background:#fbfdff}.field textarea{min-height:90px;resize:vertical}.photo-preview{max-width:180px;max-height:180px;border-radius:12px;margin-top:8px;display:block}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.item{display:flex;justify-content:space-between;gap:12px;align-items:center}.item h3{margin:0 0 6px;font-size:18px}.muted{color:#71839a;font-size:13px}.tag{display:inline-block;padding:4px 9px;border-radius:12px;background:#edf3f8;font-size:12px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.hidden{display:none}.msg{margin:10px 0;color:#ed1c2e;font-weight:700}.empty{text-align:center;padding:35px;color:#71839a}.price{font-weight:800;font-size:18px}@media(max-width:480px){.filters,.grid{grid-template-columns:1fr}}
-</style>
-<style id="unified-navigation-style">
-.unified-nav{position:sticky;top:0;z-index:50;background:#0b223d;padding:9px 10px;box-shadow:0 2px 8px rgba(0,0,0,.12);overflow-x:auto;-webkit-overflow-scrolling:touch}
-.unified-nav-inner{display:flex;gap:7px;min-width:max-content;max-width:520px;margin:0 auto}
-.unified-nav a{display:block;text-decoration:none;white-space:nowrap;border:1px solid rgba(255,255,255,.35);border-radius:18px;padding:8px 12px;color:#fff;font-size:12px;font-weight:700;background:rgba(255,255,255,.08)}
-.unified-nav a.active{background:#e92332;border-color:#e92332}
-@media(min-width:700px){.unified-nav-inner{max-width:900px;justify-content:center}.unified-nav a{font-size:13px;padding:9px 14px}}
-</style>
+*{
+  box-sizing:border-box;
+}
 
-<style id="common-footer-style">
-.common-footer{display:flex;gap:8px;padding:12px 18px 18px;border-top:1px solid #e7edf2;background:#fff}
-.common-footer a{flex:1;text-align:center;text-decoration:none;color:#526d86;font-size:11px;padding:7px 2px;border-radius:12px}
-.common-footer a .footer-icon{display:block;font-size:22px;line-height:1.2;margin-bottom:4px}
-.common-footer a.active{color:#e92332;font-weight:800}
+body{
+  margin:0;
+  background:#f3f6f8;
+  color:#102b4e;
+  font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif;
+}
+
+header{
+  background:#102b4e;
+  color:#fff;
+  padding:20px;
+}
+
+header h1{
+  font-size:22px;
+  margin:0 0 5px;
+}
+
+header p{
+  font-size:12px;
+  margin:0;
+  opacity:.85;
+  color:#fff;
+}
+
+header .wrap{
+  padding:0;
+}
+
+.wrap{
+  max-width:680px;
+  margin:auto;
+  padding:18px 16px 100px;
+}
+
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+}
+
+.btn{
+  border:0;
+  border-radius:25px;
+  padding:12px 18px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.primary{
+  background:#ed1c2e;
+  color:#fff;
+}
+
+.light{
+  background:#e9f1f6;
+  color:#183a60;
+}
+
+.card{
+  background:#fff;
+  border-radius:18px;
+  padding:18px;
+  margin:12px 0;
+  box-shadow:0 3px 14px #102f5512;
+}
+
+/* 学年フィルター */
+.grade-filter{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:5px;
+  background:#eaf0f5;
+  padding:5px;
+  border-radius:14px;
+  margin-bottom:15px;
+}
+
+.grade-filter button{
+  border:0;
+  border-radius:10px;
+  padding:11px 4px;
+  background:transparent;
+  color:#728096;
+  font-weight:700;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.grade-filter button.active{
+  background:#ed1c2e;
+  color:#fff;
+}
+
+.field{
+  margin:12px 0;
+}
+
+.field label{
+  display:block;
+  font-weight:700;
+  margin-bottom:7px;
+}
+
+.field input,
+.field select,
+.field textarea{
+  width:100%;
+  padding:13px;
+  border:1px solid #d4e0eb;
+  border-radius:12px;
+  font:inherit;
+  background:#fbfdff;
+}
+
+.field textarea{
+  min-height:90px;
+  resize:vertical;
+}
+
+.photo-preview{
+  max-width:180px;
+  max-height:180px;
+  border-radius:12px;
+  margin-top:8px;
+  display:block;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.muted{
+  color:#71839a;
+  font-size:13px;
+}
+
+.hidden{
+  display:none;
+}
+
+.msg{
+  margin:10px 0;
+  color:#ed1c2e;
+  font-weight:700;
+}
+
+.empty{
+  text-align:center;
+  padding:35px;
+  color:#71839a;
+}
+
+/* 野球用品一覧カード */
+/* 野球用品：縦型カード表示 */
+
+.equipment-item{
+  display:block;
+}
+
+.equipment-info{
+  width:100%;
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+}
+
+/* 用品名 */
+.equipment-title{
+  margin:0 0 14px;
+  font-size:26px;
+  line-height:1.35;
+  color:#102b4e;
+  font-weight:800;
+}
+
+/* 写真 */
+.equipment-photo{
+  display:block;
+  width:100%;
+  height:auto;
+  aspect-ratio:4 / 3;
+  object-fit:cover;
+  border-radius:0;
+  background:#eef3f7;
+  margin:0 0 18px;
+}
+
+.equipment-photo.empty{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  aspect-ratio:4 / 3;
+  height:auto;
+  border-radius:0;
+  background:#eef3f7;
+  color:#8a9aab;
+  font-size:14px;
+  text-align:center;
+  margin:0 0 18px;
+}
+
+/* 購入・使用開始日 */
+.equipment-bottom{
+  display:block;
+  border:0;
+  margin:0 0 18px;
+  padding:0;
+}
+
+.item-date{
+  display:block;
+  color:#102b4e;
+  font-size:18px;
+  line-height:1.5;
+}
+
+/* メーカー・サイズ */
+.equipment-meta{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:0;
+  margin:0 0 18px;
+  font-size:18px;
+  color:#102b4e;
+  line-height:1.5;
+}
+
+.equipment-meta .dot{
+  margin:0 14px;
+  color:#102b4e;
+}
+
+/* メモ */
+.equipment-note{
+  margin:0;
+  padding:0;
+  font-size:18px;
+  line-height:1.7;
+  color:#102b4e;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  text-align:left;
+  text-indent:0;
+}
+
+/* 今回の案ではカード下部に編集・削除アイコンを表示 */
+.icon-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:14px;
+  margin-top:18px;
+}
+
+.icon-btn{
+  border:0;
+  background:transparent;
+  color:#647c95;
+  font-size:21px;
+  padding:4px;
+  cursor:pointer;
+  line-height:1;
+}
+
+.icon-btn:hover{
+  color:#102b4e;
+}
+
+/* 上部ナビゲーション */
+.unified-nav{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:#0b223d;
+  padding:9px 10px;
+  box-shadow:0 2px 8px rgba(0,0,0,.12);
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+}
+
+.unified-nav-inner{
+  display:flex;
+  gap:7px;
+  min-width:max-content;
+  max-width:520px;
+  margin:0 auto;
+}
+
+.unified-nav a{
+  display:block;
+  text-decoration:none;
+  white-space:nowrap;
+  border:1px solid rgba(255,255,255,.35);
+  border-radius:18px;
+  padding:8px 12px;
+  color:#fff;
+  font-size:12px;
+  font-weight:700;
+  background:rgba(255,255,255,.08);
+}
+
+.unified-nav a.active{
+  background:#e92332;
+  border-color:#e92332;
+}
+
+@media(min-width:700px){
+
+  .unified-nav-inner{
+    max-width:900px;
+    justify-content:center;
+  }
+
+  .unified-nav a{
+    font-size:13px;
+    padding:9px 14px;
+  }
+}
+
+/* フッター */
+.common-footer{
+  display:flex;
+  gap:8px;
+  padding:12px 18px 18px;
+  border-top:1px solid #e7edf2;
+  background:#fff;
+}
+
+.common-footer a{
+  flex:1;
+  text-align:center;
+  text-decoration:none;
+  color:#526d86;
+  font-size:11px;
+  padding:7px 2px;
+  border-radius:12px;
+}
+
+.common-footer a .footer-icon{
+  display:block;
+  font-size:22px;
+  line-height:1.2;
+  margin-bottom:4px;
+}
+
+.common-footer a.active{
+  color:#e92332;
+  font-weight:800;
+}
+
+@media(max-width:480px){
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .equipment-item{
+    gap:12px;
+  }
+
+  .equipment-photo{
+    width:112px;
+    min-width:112px;
+    height:112px;
+  }
+
+  .equipment-title{
+    font-size:18px;
+  }
+
+  .equipment-meta{
+    font-size:14px;
+  }
+}
 </style>
+</head>
 
-</head><body>
-<nav class="unified-nav" aria-label="記録メニュー"><div class="unified-nav-inner"><a href="../試合記録/index.html">試合記録</a><a href="../成長記録/index.html">成長記録</a><a href="../練習記録/index.html">練習記録</a><a href="../ケガ・コンディション/index.html">ケガ・コンディション</a><a href="../野球用品/index.html" class="active">野球用品</a><a href="../写真・思い出/index.html">写真・思い出</a></div></nav>
+<body>
 
-<header><div class="wrap"><h1>野球用品</h1><p>道具の変化や買い替えを記録</p></div></header>
-<main class="wrap"><div class="top"><button class="btn light" onclick="showList()">← 一覧へ</button><button class="btn primary" onclick="showForm()">＋ 用品を追加</button></div>
-<section id="list-view"><div class="card"><div class="filters"><div class="field"><label>年度</label><select id="year-filter"><option value="">すべて</option></select></div><div class="field"><label>カテゴリ</label><input id="category-filter" placeholder="カテゴリを入力"></div></div><div class="field"><label>用品名・メーカーで検索</label><input id="keyword-filter" placeholder="例：グローブ、ミズノ"></div><button class="btn light" onclick="clearFilters()">絞り込みを解除</button></div><div id="list"></div></section>
-<section id="form-view" class="hidden"><div class="card"><h2 id="form-title">用品を登録</h2><input type="hidden" id="edit-id"><div class="field"><label>購入・使用開始日 *</label><input type="date" id="purchase-date" required></div><div class="grid"><div class="field"><label>カテゴリ</label><input id="category" placeholder="例：グローブ、バット、トレーニング用品"></div><div class="field"><label>状態</label><select id="status"><option>使用中</option><option>買い替え</option><option>保管</option><option>使用終了</option></select></div></div><div class="field"><label>用品名 *</label><input id="item-name" placeholder="例：投手用グローブ" required></div><div class="grid"><div class="field"><label>メーカー</label><input id="brand" placeholder="例：ミズノ"></div><div class="field"><label>サイズ・型番</label><input id="size" placeholder="例：11.5インチ"></div></div><div class="field"><label>価格（円）</label><input type="number" id="price" min="0" placeholder="例：25000"></div><div class="field"><label>購入・変更した理由</label><textarea id="change-reason" placeholder="成長に合わせて買い替えた理由など"></textarea></div><div class="field"><label>写真</label><input type="file" id="photo" accept="image/*"><small class="muted">用品の写真を1枚添付できます。</small><img id="photo-preview" class="photo-preview hidden"><input type="hidden" id="photo-url"></div><div class="field"><label>メモ</label><textarea id="note" placeholder="使用感、思い出、現在の状態など"></textarea></div><div id="message" class="msg"></div><div class="actions"><button class="btn primary" onclick="saveRecord()">保存する</button><button class="btn light" onclick="showList()">キャンセル</button></div></div></section></main>
+<nav class="unified-nav" aria-label="記録メニュー">
+  <div class="unified-nav-inner">
+    <a href="../試合記録/index.html">試合記録</a>
+    <a href="../成長記録/index.html">成長記録</a>
+    <a href="../練習記録/index.html">練習記録</a>
+    <a href="../ケガ・コンディション/index.html">ケガ・コンディション</a>
+    <a href="../野球用品/index.html" class="active">野球用品</a>
+    <a href="../写真・思い出/index.html">写真・思い出</a>
+  </div>
+</nav>
+
+<header>
+  <div class="wrap">
+    <h1>野球用品</h1>
+    <p>道具の変化や買い替えを記録</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="top">
+    <button class="btn light" onclick="showList()">
+      ← 一覧へ
+    </button>
+
+    <button class="btn primary" onclick="showForm()">
+      ＋ 用品を追加
+    </button>
+  </div>
+
+
+  <!-- 一覧 -->
+  <section id="list-view">
+
+    <div class="card">
+
+      <div class="grade-filter">
+
+        <button
+          type="button"
+          class="active"
+          data-grade="all"
+        >
+          すべて
+        </button>
+
+        <button
+          type="button"
+          data-grade="中1"
+        >
+          中1
+        </button>
+
+        <button
+          type="button"
+          data-grade="中2"
+        >
+          中2
+        </button>
+
+        <button
+          type="button"
+          data-grade="中3"
+        >
+          中3
+        </button>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          カテゴリ・用品名・メーカーで検索
+        </label>
+
+        <input
+          id="keyword-filter"
+          type="search"
+          placeholder="カテゴリ・用品名・メーカーで検索"
+        >
+
+      </div>
+
+
+      <button
+        class="btn light"
+        onclick="clearFilters()"
+      >
+        絞り込みを解除
+      </button>
+
+    </div>
+
+
+    <div id="list"></div>
+
+  </section>
+
+
+  <!-- 登録・編集 -->
+  <section
+    id="form-view"
+    class="hidden"
+  >
+
+    <div class="card">
+
+      <h2 id="form-title">
+        用品を登録
+      </h2>
+
+
+      <input
+        type="hidden"
+        id="edit-id"
+      >
+
+
+      <!-- 購入・使用開始日 -->
+      <div class="field">
+
+        <label>
+          購入・使用開始日 *
+        </label>
+
+        <input
+          type="date"
+          id="purchase-date"
+          required
+        >
+
+      </div>
+
+
+      <!-- 用品名 -->
+      <div class="field">
+
+        <label>
+          用品名 *
+        </label>
+
+        <input
+          id="item-name"
+          placeholder="例：投手用グローブ"
+          required
+        >
+
+      </div>
+
+
+      <!-- メーカー・サイズ -->
+      <div class="grid">
+
+        <div class="field">
+
+          <label>
+            メーカー
+          </label>
+
+          <input
+            id="brand"
+            placeholder="例：ミズノ"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            サイズ・型番
+          </label>
+
+          <input
+            id="size"
+            placeholder="例：11.5インチ"
+          >
+
+        </div>
+
+      </div>
+
+
+      <!-- 写真 -->
+      <div class="field">
+
+        <label>
+          写真
+        </label>
+
+        <input
+          type="file"
+          id="photo"
+          accept="image/*"
+        >
+
+        <small class="muted">
+          用品の写真を1枚添付できます。
+        </small>
+
+
+        <img
+          id="photo-preview"
+          class="photo-preview hidden"
+          alt="用品写真"
+        >
+
+
+        <input
+          type="hidden"
+          id="photo-url"
+        >
+
+      </div>
+
+
+      <!-- メモ -->
+      <div class="field">
+
+        <label>
+          メモ
+        </label>
+
+        <textarea
+          id="note"
+          placeholder="使用感、思い出、現在の状態など"
+        ></textarea>
+
+      </div>
+
+
+      <div
+        id="message"
+        class="msg"
+      ></div>
+
+
+      <div class="actions">
+
+        <button
+          class="btn primary"
+          onclick="saveRecord()"
+        >
+          保存する
+        </button>
+
+
+        <button
+          class="btn light"
+          onclick="showList()"
+        >
+          キャンセル
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+
 <script>
-const $=id=>document.getElementById(id);let records=[];
-function client(){try{return typeof supabaseClient!=='undefined'?supabaseClient:window.supabaseClient}catch(e){return window.supabaseClient}}
-function showList(){ $('form-view').classList.add('hidden');$('list-view').classList.remove('hidden');loadRecords() }
-function showForm(record=null){$('list-view').classList.add('hidden');$('form-view').classList.remove('hidden');$('form-title').textContent=record?'用品を編集':'用品を登録';$('edit-id').value=record?.id||'';$('purchase-date').value=record?.purchase_date||new Date().toISOString().slice(0,10);$('category').value=record?.category||'';$('status').value=record?.status||'使用中';$('item-name').value=record?.item_name||'';$('brand').value=record?.brand||'';$('size').value=record?.size||'';$('price').value=record?.price??'';$('change-reason').value=record?.change_reason||'';$('note').value=record?.note||'';$('photo').value='';$('photo-url').value=record?.photo_url||'';if(record?.photo_url){$('photo-preview').src=record.photo_url;$('photo-preview').classList.remove('hidden')}else{$('photo-preview').classList.add('hidden')};$('message').textContent='';window.scrollTo(0,0)}
-async function loadRecords(){const c=client();if(!c){$('list').innerHTML='<div class="card msg">Supabase接続設定が読み込まれていません。</div>';return}const {data,error}=await c.from('equipment_records').select('*').order('purchase_date',{ascending:false});if(error){$('list').innerHTML='<div class="card msg">読み込みエラー：'+error.message+'</div>';return}records=data||[];populateYears();render()}
-function populateYears(){const sel=$('year-filter'),current=sel.value;const years=[...new Set(records.map(r=>r.purchase_date?.slice(0,4)).filter(Boolean))].sort().reverse();sel.innerHTML='<option value="">すべて</option>'+years.map(y=>`<option value="${y}">${y}年</option>`).join('');sel.value=current}
-function render(){const year=$('year-filter').value,cat=$('category-filter').value,key=$('keyword-filter').value.trim().toLowerCase();const filtered=records.filter(r=>(!year||r.purchase_date?.startsWith(year))&&(!cat||(r.category||'').toLowerCase().includes(cat.toLowerCase()))&&(!key||[r.item_name,r.brand,r.size].join(' ').toLowerCase().includes(key)));if(!filtered.length){$('list').innerHTML='<div class="card empty">登録された用品はありません。</div>';return}$('list').innerHTML=filtered.map(r=>`<div class="card"><div class="item"><div><h3>${esc(r.item_name)}</h3><div class="muted">${r.purchase_date||''}　${esc(r.brand||'メーカー未入力')}</div></div><span class="tag">${esc(r.status||'使用中')}</span></div><p>${r.category?'<span class="tag">'+esc(r.category)+'</span> ':''}${r.size?esc(r.size):''}</p>${r.price!=null?'<div class="price">¥'+Number(r.price).toLocaleString()+'</div>':''}${r.change_reason?'<p>'+esc(r.change_reason)+'</p>':''}${r.photo_url?'<img class="photo-preview" src="'+esc(r.photo_url)+'" alt="用品写真">':''}${r.note?'<p class="muted">'+esc(r.note)+'</p>':''}<div class="actions"><button class="btn light" onclick='editRecord(${r.id})'>編集</button><button class="btn light" onclick='deleteRecord(${r.id})'>削除</button></div></div>`).join('')}
-function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-async function saveRecord(){const c=client();$('message').textContent='';if(!c){$('message').textContent='Supabase接続設定が読み込まれていません。';return}const name=$('item-name').value.trim();if(!name){$('message').textContent='用品名を入力してください。';return}let photoUrl=$('photo-url').value||null;const file=$('photo').files[0];if(file){const path=Date.now()+'_'+file.name.replace(/[^a-zA-Z0-9._-]/g,'_');const upload=await c.storage.from('equipment-photos').upload(path,file,{upsert:true});if(upload.error){$('message').textContent='写真を保存できませんでした：'+upload.error.message;return}photoUrl=c.storage.from('equipment-photos').getPublicUrl(path).data.publicUrl;}const payload={photo_url:photoUrl,purchase_date:$('purchase-date').value,category:$('category').value||null,item_name:name,brand:$('brand').value.trim()||null,size:$('size').value.trim()||null,price:$('price').value?Number($('price').value):null,status:$('status').value,change_reason:$('change-reason').value.trim()||null,note:$('note').value.trim()||null};const id=$('edit-id').value;const result=id?await c.from('equipment_records').update(payload).eq('id',id):await c.from('equipment_records').insert(payload);if(result.error){$('message').textContent='保存できませんでした：'+result.error.message;return}showList()}
-function editRecord(id){const r=records.find(x=>x.id===id);if(r)showForm(r)}
-async function deleteRecord(id){if(!confirm('この用品記録を削除しますか？'))return;const c=client();const {error}=await c.from('equipment_records').delete().eq('id',id);if(error){alert('削除できませんでした：'+error.message);return}loadRecords()}
-function clearFilters(){$('year-filter').value='';$('category-filter').value='';$('keyword-filter').value='';render()}
-$('year-filter').addEventListener('change',render);$('category-filter').addEventListener('change',render);$('keyword-filter').addEventListener('input',render);loadRecords();
-</script><nav class="common-footer" aria-label="下部メニュー"><a href="../試合記録/index.html" class=""><span class="footer-icon">⚾</span>試合</a><a href="../index.html" class=""><span class="footer-icon">⌂</span>ホーム</a><a href="../record-menu.html" class="active"><span class="footer-icon">☰</span>その他</a></nav>
-</body></html>
+
+const $ = id => document.getElementById(id);
+
+let records = [];
+
+
+/* Supabaseクライアント */
+function client(){
+
+  try{
+
+    return typeof supabaseClient !== 'undefined'
+      ? supabaseClient
+      : window.supabaseClient;
+
+  }catch(e){
+
+    return window.supabaseClient;
+
+  }
+
+}
+
+
+/* 一覧表示 */
+function showList(){
+
+  $('form-view')
+    .classList
+    .add('hidden');
+
+  $('list-view')
+    .classList
+    .remove('hidden');
+
+  loadRecords();
+
+}
+
+
+/* 登録・編集フォーム */
+function showForm(record=null){
+
+  $('list-view')
+    .classList
+    .add('hidden');
+
+  $('form-view')
+    .classList
+    .remove('hidden');
+
+
+  $('form-title').textContent =
+    record
+      ? '用品を編集'
+      : '用品を登録';
+
+
+  $('edit-id').value =
+    record?.id || '';
+
+
+  $('purchase-date').value =
+    record?.purchase_date ||
+    new Date()
+      .toISOString()
+      .slice(0,10);
+
+
+  $('item-name').value =
+    record?.item_name || '';
+
+
+  $('brand').value =
+    record?.brand || '';
+
+
+  $('size').value =
+    record?.size || '';
+
+
+  $('note').value =
+    record?.note || '';
+
+
+  $('photo').value = '';
+
+
+  $('photo-url').value =
+    record?.photo_url || '';
+
+
+  if(record?.photo_url){
+
+    $('photo-preview').src =
+      record.photo_url;
+
+    $('photo-preview')
+      .classList
+      .remove('hidden');
+
+  }else{
+
+    $('photo-preview')
+      .classList
+      .add('hidden');
+
+  }
+
+
+  $('message').textContent = '';
+
+  window.scrollTo(0,0);
+
+}
+
+
+/* データ読み込み */
+async function loadRecords(){
+
+  const c = client();
+
+
+  if(!c){
+
+    $('list').innerHTML =
+      '<div class="card msg">' +
+      'Supabase接続設定が読み込まれていません。' +
+      '</div>';
+
+    return;
+
+  }
+
+
+  const {
+    data,
+    error
+  } = await c
+    .from('equipment_records')
+    .select('*')
+    .order(
+      'purchase_date',
+      {
+        ascending:false
+      }
+    );
+
+
+  if(error){
+
+    $('list').innerHTML =
+      '<div class="card msg">' +
+      '読み込みエラー：' +
+      esc(error.message) +
+      '</div>';
+
+    return;
+
+  }
+
+
+  records = data || [];
+
+  render();
+
+}
+
+
+/* 購入日から学年を判定 */
+function gradeOf(date){
+
+  if(!date){
+    return '';
+  }
+
+
+  const year =
+    Number(
+      String(date).slice(0,4)
+    );
+
+
+  if(year === 2026){
+    return '中1';
+  }
+
+
+  if(year === 2027){
+    return '中2';
+  }
+
+
+  if(year === 2028){
+    return '中3';
+  }
+
+
+  return '';
+
+}
+
+
+/* 一覧表示・絞り込み */
+/* 一覧表示・絞り込み */
+function render(){
+
+  const activeGrade =
+    document
+      .querySelector(
+        '.grade-filter button.active'
+      )
+      ?.dataset.grade || 'all';
+
+
+  const key =
+    $('keyword-filter')
+      .value
+      .trim()
+      .toLowerCase();
+
+
+  const filtered =
+    records.filter(record => {
+
+      /* 学年条件 */
+      const gradeMatch =
+        activeGrade === 'all' ||
+        gradeOf(
+          record.purchase_date
+        ) === activeGrade;
+
+
+      /* 検索条件 */
+      const category =
+        String(
+          record.category || ''
+        )
+        .trim()
+        .toLowerCase();
+
+
+      const itemName =
+        String(
+          record.item_name || ''
+        )
+        .trim()
+        .toLowerCase();
+
+
+      const brand =
+        String(
+          record.brand || ''
+        )
+        .trim()
+        .toLowerCase();
+
+
+      /*
+        カテゴリ OR 用品名 OR メーカー
+      */
+      const keywordMatch =
+        !key ||
+        category.includes(key) ||
+        itemName.includes(key) ||
+        brand.includes(key);
+
+
+      return (
+        gradeMatch &&
+        keywordMatch
+      );
+
+    });
+
+
+  if(!filtered.length){
+
+    $('list').innerHTML =
+      '<div class="card empty">' +
+      '登録された用品はありません。' +
+      '</div>';
+
+    return;
+
+  }
+
+
+  $('list').innerHTML =
+    filtered
+      .map(record => {
+
+        /* 写真 */
+        const photo =
+          record.photo_url
+            ? `
+              <img
+                class="equipment-photo"
+                src="${esc(record.photo_url)}"
+                alt="用品写真"
+              >
+            `
+            : `
+              <div class="equipment-photo empty">
+                写真なし
+              </div>
+            `;
+
+
+        /* メーカー */
+        const brand =
+          record.brand
+            ? esc(record.brand)
+            : 'メーカー未入力';
+
+
+        /* サイズ・型番 */
+        const size =
+          record.size
+            ? esc(record.size)
+            : 'サイズ・型番未入力';
+
+
+        /* メモ */
+        const noteText =
+          String(record.note || '')
+            .replace(/^[\s\u3000]+/gm, '')
+            .trim();
+
+
+        const note =
+          noteText
+            ? `<div class="equipment-note">${esc(noteText)}</div>`
+            : '';
+
+
+        return `
+          <div class="card">
+
+            <div class="equipment-item">
+
+              <div class="equipment-info">
+
+                <!-- 用品名 -->
+                <h3 class="equipment-title">
+                  ${esc(record.item_name || '')}
+                </h3>
+
+
+                <!-- 写真 -->
+                ${photo}
+
+
+                <!-- 購入・使用開始日 -->
+                <div class="equipment-bottom">
+
+                  <span class="item-date">
+                    📅
+                    ${esc(record.purchase_date || '')}
+                  </span>
+
+                </div>
+
+
+                <!-- メーカー・サイズ -->
+                <div class="equipment-meta">
+
+                  <span>
+                    ${brand}
+                  </span>
+
+                  <span class="dot">
+                    ・
+                  </span>
+
+                  <span>
+                    ${size}
+                  </span>
+
+                </div>
+
+
+                <!-- メモ -->
+                ${note}
+
+
+                <!-- 編集・削除 -->
+                <div class="icon-actions">
+
+                  <button
+                    class="icon-btn"
+                    type="button"
+                    onclick="editRecord(${record.id})"
+                    aria-label="編集"
+                    title="編集"
+                  >
+                    ✎
+                  </button>
+
+
+                  <button
+                    class="icon-btn"
+                    type="button"
+                    onclick="deleteRecord(${record.id})"
+                    aria-label="削除"
+                    title="削除"
+                  >
+                    🗑
+                  </button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+        `;
+
+      })
+      .join('');
+
+}
+
+
+/* HTMLエスケープ */
+function esc(value){
+
+  return String(value ?? '')
+    .replace(
+      /[&<>"']/g,
+      character => ({
+        '&':'&amp;',
+        '<':'&lt;',
+        '>':'&gt;',
+        '"':'&quot;',
+        "'":'&#39;'
+      }[character])
+    );
+
+}
+
+
+/* 保存 */
+async function saveRecord(){
+
+  const c = client();
+
+  $('message').textContent = '';
+
+
+  if(!c){
+
+    $('message').textContent =
+      'Supabase接続設定が読み込まれていません。';
+
+    return;
+
+  }
+
+
+  const name =
+    $('item-name')
+      .value
+      .trim();
+
+
+  if(!name){
+
+    $('message').textContent =
+      '用品名を入力してください。';
+
+    return;
+
+  }
+
+
+  let photoUrl =
+    $('photo-url').value || null;
+
+
+  /*
+    写真は1件につき1枚
+  */
+
+  const file =
+    $('photo').files[0];
+
+
+  if(file){
+
+    const path =
+      Date.now() +
+      '_' +
+      file.name.replace(
+        /[^a-zA-Z0-9._-]/g,
+        '_'
+      );
+
+
+    const upload =
+      await c
+        .storage
+        .from('equipment-photos')
+        .upload(
+          path,
+          file,
+          {
+            upsert:true
+          }
+        );
+
+
+    if(upload.error){
+
+      $('message').textContent =
+        '写真を保存できませんでした：' +
+        upload.error.message;
+
+      return;
+
+    }
+
+
+    photoUrl =
+      c
+        .storage
+        .from('equipment-photos')
+        .getPublicUrl(path)
+        .data
+        .publicUrl;
+
+  }
+
+
+  /*
+    今回の登録項目
+
+    photo_url
+    purchase_date
+    item_name
+    brand
+    size
+    note
+
+    カテゴリ・価格・購入変更理由・状態は
+    新規登録では使用しない。
+  */
+
+  const payload = {
+
+    photo_url:
+      photoUrl,
+
+    purchase_date:
+      $('purchase-date').value,
+
+    item_name:
+      name,
+
+    brand:
+      $('brand')
+        .value
+        .trim() || null,
+
+    size:
+      $('size')
+        .value
+        .trim() || null,
+
+    note:
+      $('note')
+        .value
+        .trim() || null
+
+  };
+
+
+  const id =
+    $('edit-id').value;
+
+
+  let result;
+
+
+  if(id){
+
+    result =
+      await c
+        .from('equipment_records')
+        .update(payload)
+        .eq('id',id);
+
+  }else{
+
+    result =
+      await c
+        .from('equipment_records')
+        .insert(payload);
+
+  }
+
+
+  if(result.error){
+
+    $('message').textContent =
+      '保存できませんでした：' +
+      result.error.message;
+
+    return;
+
+  }
+
+
+  showList();
+
+}
+
+
+/* 編集 */
+function editRecord(id){
+
+  const record =
+    records.find(
+      item =>
+        item.id === id
+    );
+
+
+  if(record){
+
+    showForm(record);
+
+  }
+
+}
+
+
+/* 削除 */
+async function deleteRecord(id){
+
+  if(
+    !confirm(
+      'この用品記録を削除しますか？'
+    )
+  ){
+
+    return;
+
+  }
+
+
+  const c = client();
+
+
+  if(!c){
+
+    return;
+
+  }
+
+
+  const {
+    error
+  } =
+    await c
+      .from('equipment_records')
+      .delete()
+      .eq('id',id);
+
+
+  if(error){
+
+    alert(
+      '削除できませんでした：' +
+      error.message
+    );
+
+    return;
+
+  }
+
+
+  loadRecords();
+
+}
+
+
+/* 絞り込み解除 */
+function clearFilters(){
+
+  document
+    .querySelectorAll(
+      '.grade-filter button'
+    )
+    .forEach(button => {
+
+      button.classList.toggle(
+        'active',
+        button.dataset.grade === 'all'
+      );
+
+    });
+
+
+  $('keyword-filter').value = '';
+
+  render();
+
+}
+
+
+/* 学年ボタン */
+document
+  .querySelectorAll(
+    '.grade-filter button'
+  )
+  .forEach(button => {
+
+    button.addEventListener(
+      'click',
+      () => {
+
+        document
+          .querySelectorAll(
+            '.grade-filter button'
+          )
+          .forEach(item => {
+
+            item.classList.toggle(
+              'active',
+              item === button
+            );
+
+          });
+
+
+        render();
+
+      }
+    );
+
+  });
+
+
+/* 検索 */
+$('keyword-filter')
+  .addEventListener(
+    'input',
+    render
+  );
+
+
+/* 写真プレビュー */
+$('photo')
+  .addEventListener(
+    'change',
+    () => {
+
+      const file =
+        $('photo').files[0];
+
+
+      if(!file){
+
+        $('photo-preview')
+          .classList
+          .add('hidden');
+
+        return;
+
+      }
+
+
+      $('photo-preview').src =
+        URL.createObjectURL(file);
+
+
+      $('photo-preview')
+        .classList
+        .remove('hidden');
+
+    }
+  );
+
+
+/* 初期読み込み */
+loadRecords();
+
+</script>
+
+
+<nav
+  class="common-footer"
+  aria-label="下部メニュー"
+>
+
+  <a href="../試合記録/index.html">
+
+    <span class="footer-icon">
+      ⚾
+    </span>
+
+    試合
+
+  </a>
+
+
+  <a href="../index.html">
+
+    <span class="footer-icon">
+      ⌂
+    </span>
+
+    ホーム
+
+  </a>
+
+
+  <a
+    href="../record-menu.html"
+    class="active"
+  >
+
+    <span class="footer-icon">
+      ☰
+    </span>
+
+    その他
+
+  </a>
+
+</nav>
+
+</body>
+</html>
