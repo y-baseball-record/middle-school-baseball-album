@@ -263,20 +263,6 @@ header .wrap{
   margin-top:6px;
 }
 
-.item-icon-btn{
-  border:0;
-  background:transparent;
-  color:#647c95;
-  font-size:21px;
-  padding:4px;
-  cursor:pointer;
-  line-height:1;
-}
-
-.item-icon-btn:hover{
-  color:#102b4e;
-}
-
 
 /* 編集・削除 */
 .item-actions{
@@ -289,15 +275,16 @@ header .wrap{
 .item-icon-btn{
   border:0;
   background:transparent;
-  color:#647c95;
-  font-size:21px;
   padding:4px;
   cursor:pointer;
   line-height:1;
 }
 
-.item-icon-btn:hover{
-  color:#102b4e;
+.item-icon-btn img{
+  display:block;
+  width:32px;
+  height:32px;
+  object-fit:contain;
 }
 
 @media(max-width:480px){
@@ -890,7 +877,6 @@ const keywordMatch =
 
           <!-- 日付 -->
           <div class="item-date">
-            📅
             ${esc(record.record_date || '')}
           </div>
 
@@ -903,31 +889,31 @@ const keywordMatch =
           ${note}
 
 
-          <!-- 編集・削除 -->
-          <div class="item-actions">
+         <!-- 編集・削除 -->
+<div class="item-actions">
 
-            <button
-              class="item-icon-btn"
-              type="button"
-              onclick="editRecord(${record.id})"
-              aria-label="編集"
-              title="編集"
-            >
-              ✎
-            </button>
+  <button
+    class="item-icon-btn"
+    type="button"
+    onclick="editRecord(${record.id})"
+    aria-label="編集"
+    title="編集"
+  >
+    <img src="編集アイコン.png" alt="編集">
+  </button>
 
 
-            <button
-              class="item-icon-btn"
-              type="button"
-              onclick="deleteRecord(${record.id})"
-              aria-label="削除"
-              title="削除"
-            >
-              🗑
-            </button>
+  <button
+    class="item-icon-btn"
+    type="button"
+    onclick="deleteRecord(${record.id})"
+    aria-label="削除"
+    title="削除"
+  >
+    <img src="ゴミ箱アイコン.png" alt="削除">
+  </button>
 
-          </div>
+</div>
 
         </div>
       `;
