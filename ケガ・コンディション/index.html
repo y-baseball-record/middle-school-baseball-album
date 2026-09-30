@@ -117,11 +117,38 @@ body{
   margin:8px 0;
 }
 
+/* カード右下の編集・削除 */
+
+.record-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  margin-top:10px;
+}
+
+.record-actions button{
+  flex:0 0 auto;
+  width:30px;
+  height:30px;
+  padding:2px;
+  border:0;
+  background:transparent;
+}
+
+.record-actions button img{
+  display:block;
+  width:26px;
+  height:26px;
+  object-fit:contain;
+  margin:auto;
+}
+
 
 /* フォーム */
 
 .field{
   margin:12px 0;
+  min-width:0;
 }
 
 .field label{
@@ -134,15 +161,32 @@ body{
 .field input,
 .field textarea,
 .field select{
+  display:block;
   width:100%;
   max-width:100%;
   min-width:0;
+  inline-size:100%;
+  box-sizing:border-box;
   border:1px solid #d7e2eb;
   border-radius:10px;
-  padding:12px;
+  padding:10px;
   background:#fbfdff;
   color:#102b4e;
   font-size:16px;
+}
+
+.field input[type="date"]{
+  display:block;
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  inline-size:100%;
+  box-sizing:border-box;
+  padding:10px 8px;
+  font-size:16px;
+  overflow:hidden;
+  -webkit-appearance:none;
+  appearance:none;
 }
 
 
@@ -840,47 +884,76 @@ async function loadRecords(){
     r.data.length
 
       ? r.data
-          .map(
-            x => `
+  .map(
+    x => `
 
-              <div
-                class="card"
-                onclick="showDetail(${x.id})"
-              >
+      <div
+        class="card"
+        onclick="showDetail(${x.id})"
+      >
 
-                <div class="head">
+        <div class="head">
 
-                  <span>
-                    ${esc(x.onset_date)}
-                    〜
-                    ${
-                      x.recovery_date
-                        ? esc(x.recovery_date)
-                        : '現在'
-                    }
-                  </span>
+          <span>
+            ${esc(x.onset_date)}
+            〜
+            ${
+              x.recovery_date
+                ? esc(x.recovery_date)
+                : '現在'
+            }
+          </span>
 
-                </div>
-
-
-                <div class="detail-title">
-
-                  ${esc(x.condition_name)}
-
-                </div>
+        </div>
 
 
-                <div class="muted">
+        <div class="detail-title">
 
-                  ${esc(x.memo || '')}
+          ${esc(x.condition_name)}
 
-                </div>
+        </div>
 
-              </div>
 
-            `
-          )
-          .join('')
+        <div class="muted">
+
+          ${esc(x.memo || '')}
+
+        </div>
+
+
+        <div class="record-actions">
+
+          <button
+            type="button"
+            onclick="event.stopPropagation(); openForm(${x.id})"
+            aria-label="編集"
+          >
+            <img
+              src="../icons/編集.png"
+              alt="編集"
+            >
+          </button>
+
+
+          <button
+            type="button"
+            onclick="event.stopPropagation(); removeRecord(${x.id})"
+            aria-label="削除"
+          >
+            <img
+              src="../icons/削除.png"
+              alt="削除"
+            >
+          </button>
+
+        </div>
+
+
+      </div>
+
+    `
+  )
+            .join('')
 
       : '<div class="empty">まだ記録がありません。</div>';
 
