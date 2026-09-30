@@ -32,6 +32,35 @@
 .common-footer a .footer-icon{display:block;width:28px;height:28px;object-fit:contain;margin:0 auto 4px}
 .common-footer a.active{color:#e92332;font-weight:800}
 </style>
+<style id="app-color-theme">
+:root{
+  --app-accent:#dcfa79;
+  --app-dark:#221f1e;
+  --app-muted:#607179;
+  --app-bg:#ddddde;
+  --app-light:#f0f0f0;
+  --app-border:#c8c9c9;
+  --app-card:#ffffff;
+}
+html,body{background:var(--app-bg)!important;color:var(--app-dark)!important}
+body{--navy:var(--app-dark);--red:var(--app-accent);--bg:var(--app-bg);--muted:var(--app-muted);--line:var(--app-border)}
+.app{background:var(--app-card)!important}
+.nav,.unified-nav{background:var(--app-dark)!important}
+.nav a.active,.unified-nav a.active{background:var(--app-accent)!important;border-color:var(--app-accent)!important;color:var(--app-dark)!important}
+.top{background:var(--app-dark)!important}
+.tabs,.grades{background:var(--app-light)!important}
+.tabs button.active,.grades button.active{background:var(--app-accent)!important;color:var(--app-dark)!important}
+button.primary,.btn.primary,.primary{background:var(--app-accent)!important;color:var(--app-dark)!important}
+.btn.outline{border-color:var(--app-accent)!important;color:var(--app-dark)!important}
+.btn.light,.secondary,.smallbtn{background:var(--app-light)!important;color:var(--app-dark)!important;border-color:var(--app-border)!important}
+.common-footer a.active,.bottom button.active{color:var(--app-dark)!important}
+.common-footer a,.bottom button,.muted,.location,.game-head-right{color:var(--app-muted)!important}
+.card{border-color:var(--app-border)!important}
+.field input,.field textarea,.field select{border-color:var(--app-border)!important;background:#fff!important;color:var(--app-dark)!important}
+.badge-official{background:var(--app-accent)!important;color:var(--app-dark)!important}
+.result,.status{color:var(--app-dark)!important}
+body>main a{color:var(--app-dark)}
+</style>
 </head>
 <body>
 <nav class="unified-nav" aria-label="記録メニュー"><div class="unified-nav-inner"><a href="../試合記録/index.html" class="active">試合記録</a><a href="../成長記録/index.html">成長記録</a><a href="../練習記録/index.html">練習記録</a><a href="../ケガ・コンディション/index.html">ケガ・コンディション</a><a href="../野球用品/index.html">野球用品</a><a href="../写真・思い出/index.html">写真・思い出</a></div></nav>
