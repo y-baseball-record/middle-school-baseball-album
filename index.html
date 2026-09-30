@@ -30,6 +30,8 @@ a{text-decoration:none;color:inherit}
 .photos{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.photo-card{background:#fff;border-radius:16px;overflow:hidden}.photo-card img{width:100%;height:125px;object-fit:cover;background:#dbe5ef}.photo-card .photo-body{padding:10px}.photo-card strong{font-size:14px}.photo-card p{font-size:12px;color:#71839b;margin:4px 0 0}
 .empty{padding:25px;text-align:center;color:#71839b}
 @media(max-width:600px){.hero{min-height:180px;padding:28px 24px}.hero h1{font-size:29px}.stats{grid-template-columns:repeat(3,minmax(0,1fr));overflow:visible}.stat{min-width:0}.photos{gap:8px}.photo-card img{height:95px}.profile h2{font-size:19px}}
+
+.summary-group{margin:0 0 22px}.summary-group:last-child{margin-bottom:0}.summary-group h3{font-size:17px;margin:0 0 10px}.summary-table{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.summary-cell{background:#fff;border-radius:14px;padding:12px 6px;text-align:center;box-shadow:0 4px 15px #16385d0b;border:1px solid #e6edf3;min-width:0}.summary-cell .label{font-size:11px;color:#71839b}.summary-cell .value{font-size:23px;font-weight:800;margin-top:4px;line-height:1.2}.summary-cell .unit{font-size:10px;color:#71839b;margin-top:2px}.summary-cell.empty{visibility:hidden;box-shadow:none;border-color:transparent;background:transparent}
 </style>
 
 <style id="common-footer-style">
@@ -52,17 +54,30 @@ a{text-decoration:none;color:inherit}
 </nav>
 <header class="hero"><div class="hero-inner"><h1>息子の中学野球</h1><p>3年間の記録と想い出</p><div class="period">2026年 — 2028年（中1・中2・中3）</div></div></header>
 <main class="wrap">
-<a class="review-link" href="3年間を振り返る.html"><div class="review-icon">📖</div><div><h2>3年間を振り返る</h2><p>中学3年間の記録と成長を振り返ります</p></div><div class="arrow">›</div></a>
 <div class="section-title"><h2>最近の記録</h2></div>
 <section id="recent" class="recent"><div class="empty">記録を読み込んでいます…</div></section>
 <div class="section-title"><h2>記録のサマリー</h2></div>
-<section class="stats">
-<div class="stat"><div class="label">試合数</div><div id="games-count" class="value">—</div><div class="unit">試合</div></div>
-<div class="stat"><div class="label">登板数</div><div id="pitch-count" class="value">—</div><div class="unit">登板</div></div>
-<div class="stat"><div class="label">安打数</div><div id="hit-count" class="value">—</div><div class="unit">安打</div></div>
-<div class="stat"><div class="label">打率</div><div id="batting-average" class="value">--</div><div class="unit"></div></div>
-<div class="stat"><div class="label">身長</div><div id="height" class="value">--</div><div class="unit">cm</div></div>
-<div class="stat"><div class="label">体重</div><div id="weight" class="value">--</div><div class="unit">kg</div></div>
+<section class="summary-group">
+<h3>打撃成績</h3>
+<div class="summary-table">
+<div class="summary-cell"><div class="label">試合数</div><div id="games-count" class="value">—</div><div class="unit">試合</div></div>
+<div class="summary-cell"><div class="label">打率</div><div id="batting-average" class="value">—</div><div class="unit">打率</div></div>
+<div class="summary-cell"><div class="label">打席数</div><div id="plate-appearances" class="value">—</div><div class="unit">打席</div></div>
+<div class="summary-cell"><div class="label">打数</div><div id="at-bats" class="value">—</div><div class="unit">打数</div></div>
+<div class="summary-cell"><div class="label">安打数</div><div id="hit-count" class="value">—</div><div class="unit">安打</div></div>
+<div class="summary-cell"><div class="label">本塁打</div><div id="home-runs" class="value">—</div><div class="unit">本</div></div>
+<div class="summary-cell"><div class="label">二塁打</div><div id="doubles" class="value">—</div><div class="unit">二塁打</div></div>
+<div class="summary-cell"><div class="label">三塁打</div><div id="triples" class="value">—</div><div class="unit">三塁打</div></div>
+<div class="summary-cell empty" aria-hidden="true"></div>
+</div>
+</section>
+<section class="summary-group">
+<h3>投手成績</h3>
+<div class="summary-table">
+<div class="summary-cell"><div class="label">登板数</div><div id="pitch-count" class="value">—</div><div class="unit">登板</div></div>
+<div class="summary-cell"><div class="label">防御率</div><div id="era" class="value">—</div><div class="unit">防御率</div></div>
+<div class="summary-cell"><div class="label">奪三振</div><div id="strikeouts" class="value">—</div><div class="unit">三振</div></div>
+</div>
 </section>
 <div class="section-title"><h2>最近の写真・思い出</h2><a href="写真・思い出/index.html">もっと見る ›</a></div>
 <section id="photos" class="photos"><div class="empty">写真を読み込んでいます…</div></section>
@@ -79,13 +94,45 @@ const measurement=value=>hasValue(value)?String(value):'--';
 function addRecent(arr,type,title,detail,date,href,icon,bg){arr.push({type,title,detail,date,href,icon,bg,sort:date||''})}
 async function load(){
  if(!c){$('recent').innerHTML='<div class="empty">Supabaseの接続設定を確認してください。</div>';return}
- const [games,memories,pitching,batting,latestGame,latestGrowth,latestPractice,latestInjury]=await Promise.all([getTable('games','game_date'),getTable('photo_memory_records','record_date'),getTable('pitching_records','created_at'),getTable('batting_records','created_at'),getLatest('games','game_date'),getLatest('growth_measurements','record_date'),getLatest('practice_records','practice_date'),getLatest('injury_conditions','onset_date')]);
+ const [games,memories,pitching,latestGame,latestGrowth,latestPractice,latestInjury,summaryGames]=await Promise.all([getTable('games','game_date'),getTable('photo_memory_records','record_date'),getTable('pitching_records','created_at'),getLatest('games','game_date'),getLatest('growth_measurements','record_date'),getLatest('practice_records','practice_date'),getLatest('injury_conditions','onset_date'),c.from('games').select('id,game_date')]);
  $('games-count').textContent=games.length;
  $('pitch-count').textContent=pitching.length;
- $('hit-count').textContent=batting.reduce((s,r)=>s+Number(r.hits??r.hit??0),0);
- // 打率は「安打÷打数」。ただし、現在のホームHTMLから打数の実カラム名は確認できないため、推測して接続しない。
- $('batting-average').textContent='--';
- $('height').textContent=measurement(latestGrowth?.height_cm);$('weight').textContent=measurement(latestGrowth?.weight_kg);
+ if(summaryGames.error){
+  console.error('ホーム：試合一覧取得エラー',summaryGames.error);
+  ['games-count','plate-appearances','at-bats','hit-count','home-runs','doubles','triples','batting-average','pitch-count','era','strikeouts'].forEach(id=>{if($(id))$(id).textContent='—'});
+ } else {
+  const gameIds=(summaryGames.data||[]).map(r=>r.id);
+  let battingRows=[],pitchingRows=[];
+  if(gameIds.length){
+   const [battingQuery,pitchingQuery]=await Promise.all([
+    c.from('batting_records').select('*').in('game_id',gameIds),
+    c.from('pitching_records').select('*').in('game_id',gameIds)
+   ]);
+   if(battingQuery.error)console.error('ホーム：打撃記録取得エラー',battingQuery.error); else battingRows=battingQuery.data||[];
+   if(pitchingQuery.error)console.error('ホーム：投手記録取得エラー',pitchingQuery.error); else pitchingRows=pitchingQuery.data||[];
+  }
+  const sum=(rows,keys)=>rows.reduce((total,row)=>{for(const key of keys){if(Object.prototype.hasOwnProperty.call(row,key)&&row[key]!==null&&row[key]!==undefined&&row[key]!=='' )return total+Number(row[key])}return total},0);
+  const atBats=sum(battingRows,['at_bats']);
+  const hits=sum(battingRows,['hits']);
+  const plateAppearances=sum(battingRows,['plate_appearances','plate_appearances_count','plate_appearance','pa']);
+  const homeRuns=sum(battingRows,['home_runs','homeruns','hr']);
+  const doubles=sum(battingRows,['doubles','double','two_base_hits','two_bases']);
+  const triples=sum(battingRows,['triples','triple','three_base_hits','three_bases']);
+  const outs=sum(pitchingRows,['innings_outs']);
+  const earnedRuns=sum(pitchingRows,['earned_runs']);
+  const strikeouts=sum(pitchingRows,['strikeouts','strike_outs','ks','k']);
+  $('games-count').textContent=(summaryGames.data||[]).length;
+  $('plate-appearances').textContent=plateAppearances;
+  $('at-bats').textContent=atBats;
+  $('hit-count').textContent=hits;
+  $('home-runs').textContent=homeRuns;
+  $('doubles').textContent=doubles;
+  $('triples').textContent=triples;
+  $('batting-average').textContent=atBats?(hits/atBats).toFixed(3):'.000';
+  $('pitch-count').textContent=pitchingRows.length;
+  $('era').textContent=outs?(earnedRuns*21/outs).toFixed(2):'0.00';
+  $('strikeouts').textContent=strikeouts;
+ }
  const recent=[];
  // 各カテゴリの最新1件だけを表示
  if(latestGame){const r=latestGame;addRecent(recent,'試合',r.opponent?`vs ${r.opponent}`:'試合記録',r.result||r.note,r.game_date,'試合記録/index.html','icons/試合.png','#edf4f8')}else{addRecent(recent,'試合','まだ記録がありません','','','試合記録/index.html','icons/試合.png','#edf4f8')}
