@@ -108,8 +108,51 @@ header .wrap{
   color:#fff;
 }
 
+/* 検索窓＋追加ボタン */
+.search-area{
+  width:100%;
+  margin-bottom:15px;
+}
+
+.search-label{
+  display:block;
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:7px;
+}
+
+.search-add-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  width:100%;
+}
+
+.search-add-row input{
+  flex:1 1 auto;
+  width:auto;
+  min-width:0;
+  max-width:none;
+  box-sizing:border-box;
+}
+
+.search-add-button{
+  flex:0 0 auto;
+  border:0;
+  border-radius:10px;
+  height:44px;
+  padding:0 16px;
+  background:#ed1c2e;
+  color:#fff;
+  font-weight:700;
+  white-space:nowrap;
+  cursor:pointer;
+}
+
+
 .field{
   margin:12px 0;
+  min-width:0;
 }
 
 .field label{
@@ -121,12 +164,30 @@ header .wrap{
 .field input,
 .field select,
 .field textarea{
+  display:block;
   width:100%;
-  padding:13px;
+  max-width:100%;
+  min-width:0;
+  inline-size:100%;
+  box-sizing:border-box;
+  padding:11px 9px;
   border:1px solid #d4e0eb;
   border-radius:12px;
   font:inherit;
   background:#fbfdff;
+}
+
+.field input[type="date"]{
+  display:block;
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  inline-size:100%;
+  box-sizing:border-box;
+  padding:10px 8px;
+  overflow:hidden;
+  -webkit-appearance:none;
+  appearance:none;
 }
 
 .field textarea{
@@ -196,6 +257,7 @@ header .wrap{
 .equipment-photo{
   display:block;
   width:100%;
+  max-width:100%;
   height:auto;
   aspect-ratio:4 / 3;
   object-fit:cover;
@@ -264,26 +326,30 @@ header .wrap{
   text-indent:0;
 }
 
-/* 今回の案ではカード下部に編集・削除アイコンを表示 */
+/* カード右下の編集・削除 */
 .icon-actions{
   display:flex;
   justify-content:flex-end;
-  gap:14px;
-  margin-top:18px;
+  gap:10px;
+  margin-top:10px;
 }
 
 .icon-btn{
+  flex:0 0 auto;
+  width:30px;
+  height:30px;
+  padding:2px;
   border:0;
   background:transparent;
-  color:#647c95;
-  font-size:21px;
-  padding:4px;
   cursor:pointer;
-  line-height:1;
 }
 
-.icon-btn:hover{
-  color:#102b4e;
+.icon-btn img{
+  display:block;
+  width:26px;
+  height:26px;
+  object-fit:contain;
+  margin:auto;
 }
 
 /* 上部ナビゲーション */
@@ -341,7 +407,7 @@ header .wrap{
 .common-footer{
   display:flex;
   gap:8px;
-  padding:12px 18px 18px;
+  padding:10px 16px 18px;
   border-top:1px solid #e7edf2;
   background:#fff;
 }
@@ -350,22 +416,23 @@ header .wrap{
   flex:1;
   text-align:center;
   text-decoration:none;
-  color:#526d86;
+  color:#71839b;
   font-size:11px;
   padding:7px 2px;
   border-radius:12px;
 }
 
-.common-footer a .footer-icon{
-  display:block;
-  font-size:22px;
-  line-height:1.2;
-  margin-bottom:4px;
-}
-
 .common-footer a.active{
   color:#e92332;
   font-weight:800;
+}
+
+.common-footer .footer-icon{
+  display:block;
+  width:28px;
+  height:28px;
+  margin:0 auto 4px;
+  object-fit:contain;
 }
 
 @media(max-width:480px){
@@ -377,14 +444,7 @@ header .wrap{
   .equipment-item{
     gap:12px;
   }
-
-  .equipment-photo{
-    width:112px;
-    min-width:112px;
-    height:112px;
-  }
-
-  .equipment-title{
+.equipment-title{
     font-size:18px;
   }
 
@@ -416,18 +476,6 @@ header .wrap{
 </header>
 
 <main class="wrap">
-
-  <div class="top">
-    <button class="btn light" onclick="showList()">
-      ← 一覧へ
-    </button>
-
-    <button class="btn primary" onclick="showForm()">
-      ＋ 用品を追加
-    </button>
-  </div>
-
-
   <!-- 一覧 -->
   <section id="list-view">
 
@@ -467,27 +515,34 @@ header .wrap{
       </div>
 
 
-      <div class="field">
+      <div class="search-area">
 
-        <label>
+        <label class="search-label">
           カテゴリ・用品名・メーカーで検索
         </label>
 
-        <input
-          id="keyword-filter"
-          type="search"
-          placeholder="カテゴリ・用品名・メーカーで検索"
-        >
+        <div class="search-add-row">
+
+          <input
+            id="keyword-filter"
+            type="search"
+            placeholder="カテゴリ・用品名・メーカーで検索"
+          >
+
+          <button
+            type="button"
+            class="search-add-button"
+            onclick="showForm()"
+          >
+            ＋追加
+          </button>
+
+        </div>
 
       </div>
 
 
-      <button
-        class="btn light"
-        onclick="clearFilters()"
-      >
-        絞り込みを解除
-      </button>
+      
 
     </div>
 
@@ -1019,7 +1074,6 @@ function render(){
                 <div class="equipment-bottom">
 
                   <span class="item-date">
-                    📅
                     ${esc(record.purchase_date || '')}
                   </span>
 
@@ -1058,7 +1112,10 @@ function render(){
                     aria-label="編集"
                     title="編集"
                   >
-                    ✎
+                    <img
+                      src="../icons/編集.png"
+                      alt="編集"
+                    >
                   </button>
 
 
@@ -1069,7 +1126,10 @@ function render(){
                     aria-label="削除"
                     title="削除"
                   >
-                    🗑
+                    <img
+                      src="../icons/削除.png"
+                      alt="削除"
+                    >
                   </button>
 
                 </div>
@@ -1350,30 +1410,6 @@ async function deleteRecord(id){
 }
 
 
-/* 絞り込み解除 */
-function clearFilters(){
-
-  document
-    .querySelectorAll(
-      '.grade-filter button'
-    )
-    .forEach(button => {
-
-      button.classList.toggle(
-        'active',
-        button.dataset.grade === 'all'
-      );
-
-    });
-
-
-  $('keyword-filter').value = '';
-
-  render();
-
-}
-
-
 /* 学年ボタン */
 document
   .querySelectorAll(
@@ -1461,9 +1497,11 @@ loadRecords();
 
   <a href="../試合記録/index.html">
 
-    <span class="footer-icon">
-      ⚾
-    </span>
+    <img
+      class="footer-icon"
+      src="../icons/試合.png"
+      alt="試合"
+    >
 
     試合
 
@@ -1472,9 +1510,11 @@ loadRecords();
 
   <a href="../index.html">
 
-    <span class="footer-icon">
-      ⌂
-    </span>
+    <img
+      class="footer-icon"
+      src="../icons/ホーム.png"
+      alt="ホーム"
+    >
 
     ホーム
 
@@ -1486,9 +1526,11 @@ loadRecords();
     class="active"
   >
 
-    <span class="footer-icon">
-      ☰
-    </span>
+    <img
+      class="footer-icon"
+      src="../icons/その他.png"
+      alt="その他"
+    >
 
     その他
 
