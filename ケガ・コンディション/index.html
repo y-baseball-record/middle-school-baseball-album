@@ -146,24 +146,6 @@ body{
 }
 
 
-/* 日付 */
-
-.date-fields{
-  display:grid;
-  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-  gap:10px;
-}
-
-.date-fields .field{
-  min-width:0;
-}
-
-.date-fields input{
-  width:100%;
-  min-width:0;
-}
-
-
 /* ボタン */
 
 .primary{
@@ -323,16 +305,6 @@ body{
 }
 
 
-/* スマートフォン */
-
-@media(max-width:380px){
-
-  .date-fields{
-    grid-template-columns:1fr;
-  }
-
-}
-
 </style>
 
 </head>
@@ -465,40 +437,35 @@ body{
     onsubmit="saveRecord(event)"
   >
 
-
     <!-- 日付 -->
 
-    <div class="date-fields">
+<div class="field">
 
-      <div class="field">
+  <label>
+    発生日
+  </label>
 
-        <label>
-          発生日
-        </label>
+  <input
+    type="date"
+    id="onset-date"
+    required
+  >
 
-        <input
-          type="date"
-          id="onset-date"
-          required
-        >
-
-      </div>
+</div>
 
 
-      <div class="field">
+<div class="field">
 
-        <label>
-          完治日
-        </label>
+  <label>
+    完治日
+  </label>
 
-        <input
-          type="date"
-          id="recovery-date"
-        >
+  <input
+    type="date"
+    id="recovery-date"
+  >
 
-      </div>
-
-    </div>
+</div>
 
 
     <!-- ケガ・コンディション -->
