@@ -106,8 +106,51 @@ header .wrap{
   color:#fff
 }
 
+/* 検索窓＋追加ボタン */
+.search-area{
+  width:100%;
+  margin-bottom:15px
+}
+
+.search-label{
+  display:block;
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:7px
+}
+
+.search-add-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  width:100%
+}
+
+.search-add-row input{
+  flex:1 1 auto;
+  width:auto;
+  min-width:0;
+  max-width:none;
+  box-sizing:border-box
+}
+
+.search-add-button{
+  flex:0 0 auto;
+  border:0;
+  border-radius:10px;
+  height:44px;
+  padding:0 16px;
+  background:#ed1c2e;
+  color:#fff;
+  font-weight:700;
+  white-space:nowrap;
+  cursor:pointer
+}
+
+
 .field{
-  margin:12px 0
+  margin:12px 0;
+  min-width:0
 }
 
 .field label{
@@ -119,12 +162,30 @@ header .wrap{
 .field input,
 .field select,
 .field textarea{
+  display:block;
   width:100%;
-  padding:13px;
+  max-width:100%;
+  min-width:0;
+  inline-size:100%;
+  box-sizing:border-box;
+  padding:11px 9px;
   border:1px solid #d4e0eb;
   border-radius:12px;
   font:inherit;
   background:#fbfdff
+}
+
+.field input[type="date"]{
+  display:block;
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  inline-size:100%;
+  box-sizing:border-box;
+  padding:10px 8px;
+  overflow:hidden;
+  -webkit-appearance:none;
+  appearance:none
 }
 
 .field textarea{
@@ -268,23 +329,26 @@ header .wrap{
 .item-actions{
   display:flex;
   justify-content:flex-end;
-  gap:14px;
-  margin-top:18px;
+  gap:10px;
+  margin-top:10px
 }
 
 .item-icon-btn{
+  flex:0 0 auto;
+  width:30px;
+  height:30px;
   border:0;
   background:transparent;
-  padding:4px;
-  cursor:pointer;
-  line-height:1;
+  padding:2px;
+  cursor:pointer
 }
 
 .item-icon-btn img{
   display:block;
-  width:32px;
-  height:32px;
+  width:26px;
+  height:26px;
   object-fit:contain;
+  margin:auto
 }
 
 @media(max-width:480px){
@@ -358,7 +422,7 @@ header .wrap{
 .common-footer{
   display:flex;
   gap:8px;
-  padding:12px 18px 18px;
+  padding:10px 16px 18px;
   border-top:1px solid #e7edf2;
   background:#fff
 }
@@ -367,22 +431,23 @@ header .wrap{
   flex:1;
   text-align:center;
   text-decoration:none;
-  color:#526d86;
+  color:#71839b;
   font-size:11px;
   padding:7px 2px;
   border-radius:12px
 }
 
-.common-footer a .footer-icon{
-  display:block;
-  font-size:22px;
-  line-height:1.2;
-  margin-bottom:4px
-}
-
 .common-footer a.active{
   color:#e92332;
   font-weight:800
+}
+
+.common-footer .footer-icon{
+  display:block;
+  width:28px;
+  height:28px;
+  margin:0 auto 4px;
+  object-fit:contain
 }
 </style>
 
@@ -409,13 +474,7 @@ header .wrap{
 </header>
 
 <main class="wrap">
-
-  <div class="top">
-    <button class="btn light" onclick="showList()">← 一覧へ</button>
-    <button class="btn primary" onclick="showForm()">＋ 思い出を追加</button>
-  </div>
-
-  <section id="list-view">
+<section id="list-view">
 
     <div class="card">
 
@@ -427,18 +486,31 @@ header .wrap{
         <button type="button" data-grade="中3">中3</button>
       </div>
 
-      <div class="field">
-        <label>カテゴリ・メモで検索</label>
-        <input
-          id="keyword-filter"
-          type="search"
-          placeholder="カテゴリ・メモで検索"
-        >
-      </div>
+      <div class="search-area">
 
-      <button class="btn light" onclick="clearFilters()">
-        絞り込みを解除
-      </button>
+        <label class="search-label">
+          カテゴリ・メモで検索
+        </label>
+
+        <div class="search-add-row">
+
+          <input
+            id="keyword-filter"
+            type="search"
+            placeholder="カテゴリ・メモで検索"
+          >
+
+          <button
+            type="button"
+            class="search-add-button"
+            onclick="showForm()"
+          >
+            ＋追加
+          </button>
+
+        </div>
+
+      </div>
 
     </div>
 
@@ -495,7 +567,7 @@ header .wrap{
 
       <div class="field">
 
-        <label>写真（最大2枚）</label>
+        <label>写真</label>
 
         <input
           type="file"
@@ -899,7 +971,7 @@ const keywordMatch =
     aria-label="編集"
     title="編集"
   >
-    <img src="編集アイコン.png" alt="編集">
+    <img src="../icons/編集.png" alt="編集">
   </button>
 
 
@@ -910,7 +982,7 @@ const keywordMatch =
     aria-label="削除"
     title="削除"
   >
-    <img src="ゴミ箱アイコン.png" alt="削除">
+    <img src="../icons/削除.png" alt="削除">
   </button>
 
 </div>
@@ -1133,26 +1205,7 @@ async function deleteRecord(id){
 }
 
 
-/* 絞り込み解除 */
-function clearFilters(){
 
-  $('keyword-filter').value = '';
-
-
-  document
-    .querySelectorAll('.grade-filter button')
-    .forEach(button => {
-
-      button.classList.toggle(
-        'active',
-        button.dataset.grade === 'all'
-      );
-
-    });
-
-
-  render();
-}
 
 
 /* メモ文字数 */
@@ -1233,18 +1286,44 @@ loadRecords();
 <nav class="common-footer" aria-label="下部メニュー">
 
   <a href="../試合記録/index.html">
-    <span class="footer-icon">⚾</span>
+
+    <img
+      class="footer-icon"
+      src="../icons/試合.png"
+      alt="試合"
+    >
+
     試合
+
   </a>
+
 
   <a href="../index.html">
-    <span class="footer-icon">⌂</span>
+
+    <img
+      class="footer-icon"
+      src="../icons/ホーム.png"
+      alt="ホーム"
+    >
+
     ホーム
+
   </a>
 
-  <a href="../record-menu.html" class="active">
-    <span class="footer-icon">☰</span>
+
+  <a
+    href="../record-menu.html"
+    class="active"
+  >
+
+    <img
+      class="footer-icon"
+      src="../icons/その他.png"
+      alt="その他"
+    >
+
     その他
+
   </a>
 
 </nav>
